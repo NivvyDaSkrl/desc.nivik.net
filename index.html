@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Nivik's Desc Tool</title>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <style>
+        textarea {
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body onload="init();">
+    <div class="container-fluid p-5 bg-primary text-white text-center">
+        <h1>Nivik's Desc Tool</h1>
+        <p>It formats descs for you. Just start typing!</p>
+        <p>TODO: add clothing section, add other sections, refactor for maintainability</p>
+        <p>ALSO TODO: error handling and display</p>
+        <p>ALSO ALSO TODO: save state between sessions? list of saved descriptions (in cookies probably)?</p>
+    </div>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-sm-12"><div style="text-align: center;"><h4>Input Desc & Options</h4></div></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="form-group">
+                    <label class="form-label" for="InputDesc">Insert desc body here:</label>
+                    <textarea class="form-control desc-updater" id="InputDesc" rows="5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non elementum orci, id gravida augue. Aliquam at nibh eu felis aliquam iaculis vitae eget dui. Aliquam interdum dui eu est varius, vel tempus risus euismod. Morbi sit amet libero quis est iaculis commodo et eget sem. Morbi congue nisl ex, at aliquam nisl molestie vitae. Maecenas eleifend, tortor eu vulputate tincidunt, orci mauris elementum lectus, vel consectetur arcu risus quis dolor. Aenean id ligula erat. Donec interdum lacus quis varius cursus. Ut luctus ex vitae massa malesuada pulvinar. Praesent eu neque ut ligula facilisis sollicitudin vitae nec diam. Nulla nec nulla faucibus, aliquam odio non, tempor odio. In ornare sapien et est condimentum, vel aliquet erat tincidunt. Aliquam metus orci, fermentum non laoreet id, consectetur eget quam.
+
+Proin sed auctor elit. Sed ut enim consectetur, euismod ipsum in, mollis nunc. Nullam orci justo, aliquet vehicula est sed, dapibus aliquam nibh. Vivamus tincidunt eu risus a interdum. Nunc malesuada arcu massa, ac efficitur tortor viverra sed. Mauris vehicula tristique eleifend. Nam et ligula nec augue hendrerit molestie. Integer pretium, eros vitae rutrum ullamcorper, felis quam luctus tellus, nec lobortis tortor arcu a leo.
+
+Nam euismod a odio eget consectetur. In consequat vel urna et vehicula. Integer sollicitudin lobortis mi ut pellentesque. Mauris venenatis commodo purus bibendum porttitor. Nullam gravida purus id neque sollicitudin pharetra. Aliquam lacinia laoreet massa, at commodo turpis aliquet non. Duis vitae elementum nulla, nec bibendum orci. Pellentesque gravida orci vel laoreet luctus. Phasellus dignissim magna mi, vel ultrices velit aliquam sed. Etiam varius, eros eget tincidunt mattis, justo risus suscipit magna, porttitor tempus ex libero id massa.</textarea>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class ="form-group">
+                    <label class="form-label" for="FixedWidthValue">Width</label>
+                    <input type="text" class="desc-updater" id="FixedWidthValue" name="FixedWidthValue" value="79">
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label" for="DoWrap">Word-wrap body?</label>
+                    <input type="checkbox" class="form-check-input desc-updater" id="DoWrap" checked>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label" for="DoBorder">Add border?</label>
+                    <input type="checkbox" class="form-check-input desc-updater" id="DoBorder">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="SeparatorPattern">Seperator Pattern</label>
+                    <input type="text" class="desc-updater" id="SeparatorPattern" name="SeparatorPattern" value="-">
+                </div>
+                <div class="form-group border-dependent" hidden>
+                    <label class="form-label" for="BorderCharacter">Vertical Character</label>
+                    <input type="text" class="desc-updater" id="BorderCharacter" name="BorderCharacter" value="|">
+                </div>
+                <div class="form-group border-dependent" hidden>
+                    <label class="form-label" for="CornerCharacter">Corner Character</label>
+                    <input type="text" class="desc-updater" id="CornerCharacter" name="CornerCharacter" value="+">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12"><div style="text-align: center;"><h4>Header/Footer</h4></div></div>
+        </div>
+        <div class="row align-items-start">
+            <div class="col-sm-4">
+                <div class="form group">
+                    <label class="form-label desc-updater" for="DoFooter">Generate?</label>
+                    <input type="checkbox" class="form-check-input desc-updater" id="DoFooter" checked>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form group">
+                    <label class="form-label desc-updater" for="IsHeader">As header?</label>
+                    <input type="checkbox" class="form-check-input desc-updater" id="IsHeader">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group" hidden>
+                    <label class="form-label desc-updater" for="NumColumns">Number of Columns</label>
+                    <input type="text" class="form-input desc-updater" id="NumColumns" value="3">
+                </div>
+                <div class="form-group">
+                    <label class="form-label desc-updater" for="FieldSeperator">Field Separator</label>
+                    <input type="text" class="form-input desc-updater" id="FieldSeperator" value=" |-| ">
+                </div>
+            </div>
+
+        </div>
+        <div id="desc_fields">
+        </div>
+            <div class="col-2 input-group-btn">
+                <button class="btn btn-success" type="button" onclick="create_empty_desc_field();">+</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12"><div style="text-align: center;"><h4>Generated Description</h4></div></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <textarea class="form-control" id="OutputDesc" rows="20"></textarea>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script src="js/autoUpdateForm.js"></script>
+</html>
