@@ -14,7 +14,7 @@
     </style>
 </head>
 <body onload="init();">
-    <div class="container-fluid p-5 bg-info text-white text-center">
+    <div class="container-fluid p-5 bg-primary text-white text-center">
         <h1>Nivik's Desc Tool</h1>
         <p>It formats descs for you. Just start typing!</p>
         <p>TODO: add clothing section, add other sections, refactor for maintainability</p>
@@ -22,7 +22,7 @@
         <p>ALSO ALSO TODO: save state between sessions? list of saved descriptions (in cookies probably)?</p>
     </div>
 
-    <div class="container-fluid">
+    <div class="container-fluid my-5">
 
         <div class="row">
             <div class="col-sm-12"><div style="text-align: center;"><h4>Input Desc & Options</h4></div></div>
@@ -65,27 +65,28 @@ Nam euismod a odio eget consectetur. In consequat vel urna et vehicula. Integer 
                 </div>
             </div>
         </div>
+    </div>
 
-
+    <div class="container-fluid my-5">
         <div class="row">
             <div class="col-sm-12"><div style="text-align: center;"><h4>Header/Footer</h4></div></div>
         </div>
         <div class="row align-items-start">
             <div class="col-sm-4">
-                <div class="form group">
+                <div class="form-group">
                     <label class="form-label desc-updater" for="DoFooter">Generate?</label>
                     <input type="checkbox" class="form-check-input desc-updater" id="DoFooter" checked>
                 </div>
             </div>
             <div class="col-sm-4">
-                <div class="form group">
+                <div class="form-group">
                     <label class="form-label desc-updater" for="IsHeader">As header?</label>
                     <input type="checkbox" class="form-check-input desc-updater" id="IsHeader">
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label class="form-label desc-updater" for="FieldSeparator">Field Separator</label>
+                    <label class="form-label" for="FieldSeparator">Field Separator</label>
                     <input type="text" class="form-input desc-updater" id="FieldSeparator" value=" |-| ">
                 </div>
             </div>
@@ -95,23 +96,25 @@ Nam euismod a odio eget consectetur. In consequat vel urna et vehicula. Integer 
         <div id="footer_sections">
         </div>
 
-        <div class="col-2 input-group-btn">
-            <button class="btn btn-success" type="button" onclick="uiCreateEmptyFooterSection();">Add Section</button>
-        </div>
-
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12"><div style="text-align: center;"><h4>Generated Description</h4></div></div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <textarea class="form-control" id="OutputDesc" rows="20"></textarea>
+        <div class="row my-3">
+            <div class="col-12 text-center input-group-btn">
+                <button class="btn btn-success" type="button" onclick="uiCreateEmptyFooterSection();">Add Section</button>
             </div>
         </div>
+
     </div>
 
+    <div class="container-fluid my-5">
+        <div class="row">
+            <div class="col-sm-12"><div style="text-align: center;"><h4>Generated Description</h4></div></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <textarea class="form-control" id="OutputDesc" rows="20"></textarea>
+                </div>
+            </div>
+        </div>
     </div>
 
     <footer class="text-center bg-primary text-white">
@@ -119,7 +122,7 @@ Nam euismod a odio eget consectetur. In consequat vel urna et vehicula. Integer 
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-4 d-flex justify-content-start">
-                        v0.20250115.1
+                        v0.20250115.2
                     </div>
                     <div class="col-4 d-flex justify-content-center">
                         CC BY-NC-SA 4.0

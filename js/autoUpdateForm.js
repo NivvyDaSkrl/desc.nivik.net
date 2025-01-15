@@ -1,34 +1,36 @@
 // Field creation/destruction code
 let uiCurrSection = 0;
 let uiValidSections = [];
-function uiGenerateFooterSection(sectionName, numColumns, fields) {
+function uiGenerateFooterSection(sectionName, numColumns, numDisplayedRows, fields) {
     let objTo = document.getElementById('footer_sections')
     let sectionDiv = document.createElement("div");
     sectionDiv.setAttribute("class", "form-group removeSectionClass"+uiCurrSection);
     sectionDiv.innerHTML =
-        '<div class = "row align-items-start">' +
-        '  <div class="col-12 nopadding"><div style="text-align: center;"><h4>' + sectionName + '</h4></div></div>' +
-        '</div>' +
-        '<div class = "row align-items-start">' +
-        '  <div class="col-3 nopadding">' +
-        '    <div class="form-group">' +
-        '      <label class="form-label" for="SectionNumColumns' + uiCurrSection + '">Number of Columns</label>' +
-        '      <input class="form-control desc-updater" id="SectionNumColumns' + uiCurrSection + '" value="' + numColumns + '">' +
-        '    </div>' +
+        '<div class="container-fluid my-4">' +
+        '  <div class = "row align-items-start">' +
+        '    <div class="col-12 nopadding"><div style="text-align: center;"><h4>' + sectionName + '</h4></div></div>' +
         '  </div>' +
-        '  <div class="col-2 input-group-btn"> <button class="btn btn-danger" type="button" onclick="uiRemoveSection('+ uiCurrSection +');">Remove Section</button></div><div class="clear"></div>' +
-        '</div>' +
-        '<div class = "row align-items-start">' +
-        '  <div class="col-3 nopadding"><div style="text-align: center;">Names</div></div>' +
-        '  <div class="col-3 nopadding"><div style="text-align: center;">Values</div></div>' +
-        '  <div class="col-3 nopadding"><div style="text-align: center;">Position/Column</div></div>' +
-        '  <div class="col-3 nopadding"><div style="text-align: center;">Is Priority?</div></div>' +
-        '</div>' +
-        '<div class = "row align-items-start">' +
-        '  <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="15" id="SectionNames' + uiCurrSection + '">' + fieldNamesToNewlineDelimitedString(fields) + '</textarea></div></div>' +
-        '  <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="15" id="SectionValues' + uiCurrSection + '">' + fieldValuesToNewlineDelimitedString(fields) + '</textarea></div></div>' +
-        '  <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="15" id="SectionColumnNumber' + uiCurrSection + '">' + fieldColumnNumbersToNewlineDelimitedString(fields) + '</textarea></div></div>' +
-        '  <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="15" id="SectionIsPriority' + uiCurrSection + '">' + fieldPrioritiesToNewlineDelimitedString(fields) + '</textarea></div></div>' +
+        '  <div class = "row align-items-start">' +
+        '    <div class="col-6">' +
+        '      <div class="form-group d-inline-flex">' +
+        '        <label class="form-label mx-1" style="min-width: 85px" for="SectionNumColumns' + uiCurrSection + '">Number of Columns</label>' +
+        '        <input type="text" class="form-control desc-updater mx-1" style="min-width: 45px; max-width: 100px" id="SectionNumColumns' + uiCurrSection + '" value="' + numColumns + '">' +
+        '      </div>' +
+        '    </div>' +
+        '    <div class="col-6 form-group text-end"><button class="btn btn-danger" type="button" onclick="uiRemoveSection('+ uiCurrSection +');">Remove Section</button></div>' +
+        '  </div>' +
+        '  <div class = "row align-items-start my-2">' +
+        '    <div class="col-3 nopadding"><div style="text-align: center;">Names</div></div>' +
+        '    <div class="col-3 nopadding"><div style="text-align: center;">Values</div></div>' +
+        '    <div class="col-3 nopadding"><div style="text-align: center;">Position/Column</div></div>' +
+        '    <div class="col-3 nopadding"><div style="text-align: center;">Is Priority?</div></div>' +
+        '  </div>' +
+        '  <div class = "row align-items-start">' +
+        '    <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="'+ numDisplayedRows +'" id="SectionNames' + uiCurrSection + '">' + fieldNamesToNewlineDelimitedString(fields) + '</textarea></div></div>' +
+        '    <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="'+ numDisplayedRows +'" id="SectionValues' + uiCurrSection + '">' + fieldValuesToNewlineDelimitedString(fields) + '</textarea></div></div>' +
+        '    <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="'+ numDisplayedRows +'" id="SectionColumnNumber' + uiCurrSection + '">' + fieldColumnNumbersToNewlineDelimitedString(fields) + '</textarea></div></div>' +
+        '    <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="'+ numDisplayedRows +'" id="SectionIsPriority' + uiCurrSection + '">' + fieldPrioritiesToNewlineDelimitedString(fields) + '</textarea></div></div>' +
+        '  </div>' +
         '</div>';
     objTo.appendChild(sectionDiv);
     uiValidSections.push(uiCurrSection++);
@@ -41,7 +43,7 @@ function uiRemoveSection(rid) {
 }
 
 function uiCreateEmptyFooterSection() {
-    uiGenerateFooterSection("Section " + uiCurrSection, 1, [] );
+    uiGenerateFooterSection("Section " + uiCurrSection, 1, 3, [] );
 }
 
 function fieldNamesToNewlineDelimitedString(fields) {
@@ -97,7 +99,7 @@ function init_handlers() {
 
 function init() {
     init_handlers();
-    uiGenerateFooterSection("Main Stats", 3, [
+    uiGenerateFooterSection("Main Stats", 3, 12, [
         new Field("NAME", "Moniker", 0, true),
         new Field("SPECIES", "Sparkleferret", 1, true),
         new Field("SEX", "Herm", 2, true),
@@ -108,7 +110,7 @@ function init() {
         new Field("BUILD", "Stacked AF", -1, false),
         new Field("HEIGHT", "8'13\"", -1, false)
     ]);
-    uiGenerateFooterSection("Outfit", 1, [
+    uiGenerateFooterSection("Outfit", 1, 5, [
         new Field("OUTFIT", "Band tee and tripp pants.", -1, false),
         new Field("|-> TOP", "Fluorescent yellow \"Hyperderp\" band tee.", -1, false),
         new Field("|-> BOTTOM", "Cyan bondage pants with caution orange straps.", -1, false)
