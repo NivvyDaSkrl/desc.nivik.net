@@ -14,7 +14,7 @@
     </style>
 </head>
 <body onload="init();">
-    <div class="container-fluid p-5 bg-primary text-white text-center">
+    <div class="container-fluid p-5 bg-info text-white text-center">
         <h1>Nivik's Desc Tool</h1>
         <p>It formats descs for you. Just start typing!</p>
         <p>TODO: add clothing section, add other sections, refactor for maintainability</p>
@@ -84,10 +84,6 @@ Nam euismod a odio eget consectetur. In consequat vel urna et vehicula. Integer 
                 </div>
             </div>
             <div class="col-sm-4">
-                <div class="form-group" hidden>
-                    <label class="form-label desc-updater" for="NumColumns">Number of Columns</label>
-                    <input type="text" class="form-input desc-updater" id="NumColumns" value="3">
-                </div>
                 <div class="form-group">
                     <label class="form-label desc-updater" for="FieldSeparator">Field Separator</label>
                     <input type="text" class="form-input desc-updater" id="FieldSeparator" value=" |-| ">
@@ -95,25 +91,46 @@ Nam euismod a odio eget consectetur. In consequat vel urna et vehicula. Integer 
             </div>
 
         </div>
-        <div id="desc_fields">
-        </div>
-            <div class="col-2 input-group-btn">
-                <button class="btn btn-success" type="button" onclick="create_empty_desc_field();">+</button>
-            </div>
+
+        <div id="footer_sections">
         </div>
 
-        <div class="row">
-            <div class="col-sm-12"><div style="text-align: center;"><h4>Generated Description</h4></div></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <textarea class="form-control" id="OutputDesc" rows="20"></textarea>
-                </div>
-            </div>
+        <div class="col-2 input-group-btn">
+            <button class="btn btn-success" type="button" onclick="uiCreateEmptyFooterSection();">Add Section</button>
         </div>
 
     </div>
+
+    <div class="row">
+        <div class="col-sm-12"><div style="text-align: center;"><h4>Generated Description</h4></div></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <textarea class="form-control" id="OutputDesc" rows="20"></textarea>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <footer class="text-center bg-primary text-white">
+        <section class="d-flex  border-bottom">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-4 d-flex justify-content-start">
+                        v0.20250115.1
+                    </div>
+                    <div class="col-4 d-flex justify-content-center">
+                        CC BY-NC-SA 4.0
+                    </div>
+                    <div class="col-4 d-flex justify-content-end">
+                        (c) 2025 Nivik
+                    </div>
+                </div>
+            </div>
+        </section>
+    </footer>
     <script src="js/autoUpdateForm.js"></script>
 </body>
 </html>

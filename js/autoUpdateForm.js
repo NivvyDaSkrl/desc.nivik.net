@@ -1,59 +1,87 @@
 // Field creation/destruction code
-let fieldCount = 0;
-let validFields = [];
+let uiCurrSection = 0;
+let uiValidSections = [];
+function uiGenerateFooterSection(sectionName, numColumns, fields) {
+    let objTo = document.getElementById('footer_sections')
+    let sectionDiv = document.createElement("div");
+    sectionDiv.setAttribute("class", "form-group removeSectionClass"+uiCurrSection);
+    sectionDiv.innerHTML =
+        '<div class = "row align-items-start">' +
+        '  <div class="col-12 nopadding"><div style="text-align: center;"><h4>' + sectionName + '</h4></div></div>' +
+        '</div>' +
+        '<div class = "row align-items-start">' +
+        '  <div class="col-3 nopadding">' +
+        '    <div class="form-group">' +
+        '      <label class="form-label" for="SectionNumColumns' + uiCurrSection + '">Number of Columns</label>' +
+        '      <input class="form-control desc-updater" id="SectionNumColumns' + uiCurrSection + '" value="' + numColumns + '">' +
+        '    </div>' +
+        '  </div>' +
+        '  <div class="col-2 input-group-btn"> <button class="btn btn-danger" type="button" onclick="uiRemoveSection('+ uiCurrSection +');">Remove Section</button></div><div class="clear"></div>' +
+        '</div>' +
+        '<div class = "row align-items-start">' +
+        '  <div class="col-3 nopadding"><div style="text-align: center;">Names</div></div>' +
+        '  <div class="col-3 nopadding"><div style="text-align: center;">Values</div></div>' +
+        '  <div class="col-3 nopadding"><div style="text-align: center;">Position/Column</div></div>' +
+        '  <div class="col-3 nopadding"><div style="text-align: center;">Is Priority?</div></div>' +
+        '</div>' +
+        '<div class = "row align-items-start">' +
+        '  <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="15" id="SectionNames' + uiCurrSection + '">' + fieldNamesToNewlineDelimitedString(fields) + '</textarea></div></div>' +
+        '  <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="15" id="SectionValues' + uiCurrSection + '">' + fieldValuesToNewlineDelimitedString(fields) + '</textarea></div></div>' +
+        '  <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="15" id="SectionColumnNumber' + uiCurrSection + '">' + fieldColumnNumbersToNewlineDelimitedString(fields) + '</textarea></div></div>' +
+        '  <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="15" id="SectionIsPriority' + uiCurrSection + '">' + fieldPrioritiesToNewlineDelimitedString(fields) + '</textarea></div></div>' +
+        '</div>';
+    objTo.appendChild(sectionDiv);
+    uiValidSections.push(uiCurrSection++);
+    console.log("Section created.")
+}
 
-let columnDefaultValueDisplayName = "Position: auto";
+function uiRemoveSection(rid) {
+    $('.removeSectionClass'+rid).remove();
+    uiValidSections.splice(uiValidSections.indexOf(rid), 1);
+}
 
-function generate_option_list(numColumns, selectedIndex) {
-    let optionString = '<option value="-1" selected>' + columnDefaultValueDisplayName + '</option>';
-    if(selectedIndex !== undefined) {
-        optionString = '<option value="-1">' + columnDefaultValueDisplayName + '</option>';
+function uiCreateEmptyFooterSection() {
+    uiGenerateFooterSection("Section " + uiCurrSection, 1, [] );
+}
+
+function fieldNamesToNewlineDelimitedString(fields) {
+    let text = "";
+    for(let i = 0; i < fields.length; i++) {
+        text += fields[i].name + "\n"
     }
-    for(let i = 0; i < numColumns; i++) {
-        if (selectedIndex !== undefined && selectedIndex === i) {
-            optionString = optionString + '<option value="' + i + '" selected>' + i + '</option>';
-        } else {
-            optionString = optionString + '<option value="' + i + '">' + i + '</option>';
+    return text.substring(0, text.length - 1); // remove last \n
+}
+
+function fieldValuesToNewlineDelimitedString(fields) {
+    let text = "";
+    for(let i = 0; i < fields.length; i++) {
+        text += fields[i].value + "\n"
+    }
+    return text.substring(0, text.length - 1); // remove last \n
+}
+
+function fieldColumnNumbersToNewlineDelimitedString(fields) {
+    let text = "";
+    for(let i = 0; i < fields.length; i++) {
+        let colNum = fields[i].column;
+        if (colNum < 0) {
+            colNum = "auto"
         }
+        text += fields[i].column + "\n"
     }
-    return optionString;
+    return text.substring(0, text.length - 1); // remove last \n
 }
 
-function desc_field(name, value, priority, column) {
-    let priorityToken = ""
-    if(priority) {
-        priorityToken = " checked";
+function fieldPrioritiesToNewlineDelimitedString(fields) {
+    let text = "";
+    for(let i = 0; i < fields.length; i++) {
+        text += fields[i].priority + "\n"
     }
-
-    let objTo = document.getElementById('desc_fields')
-    let numColumns = document.getElementById('NumColumns').value;
-    if (typeof numColumns != 'number') {
-        numColumns = 3;
-    }
-    let divtest = document.createElement("div");
-    divtest.setAttribute("class", "form-group removeclass"+fieldCount);
-    divtest.innerHTML = '<div class="row align-items-start">' +
-        '<div class="col-3 nopadding"><div class="form-group"> <input type="text" class="form-control desc-updater" id="FieldName'+ fieldCount +'" name="FIELDNAME" value="'+ name +'" placeholder="FIELD NAME"></div></div>' +
-        '<div class="col-3 nopadding"><div class="form-group"> <input type="text" class="form-control desc-updater" id="FieldValue'+ fieldCount +'" name="FIELDVALUE" value="'+ value +'" placeholder="Field value"></div></div>' +
-        '<div class="col-2 nopadding"><div class="form-group"> <select class="form-select desc-updater" id="ColumnIndicator' + fieldCount + '">' + generate_option_list(numColumns, column) + '</select></div></div>' +
-        '<div class="col-2 nopadding"><div class="form-group"> <input type="checkbox" class="form-check-label desc-updater" id="IsPriority' + fieldCount + '"' + priorityToken + '> <label class="form-label" for="NumColumns">Priority?</label></div></div>' +
-        '<div class="col-2 input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_field('+ fieldCount +');">-</button></div></div></div></div><div class="clear"></div></div>';
-
-    objTo.appendChild(divtest)
-    validFields.push(fieldCount);
-    fieldCount++;
-}
-
-function create_empty_desc_field() {
-    desc_field("","");
+    return text.substring(0, text.length - 1); // remove last \n
 }
 
 function init_handlers() {
     // Event handlers
-    $("#FixedWidthValue").on("change input", function () {
-        $("#FixedWidth").val($(this).val())
-    })
-
     $("#DoBorder").on("change", function () {
         if (this.checked) {
             $(".border-dependent").attr('hidden', false);
@@ -68,47 +96,46 @@ function init_handlers() {
 }
 
 function init() {
-    init_desc_fields();
     init_handlers();
+    uiGenerateFooterSection("Main Stats", 3, [
+        new Field("NAME", "Moniker", 0, true),
+        new Field("SPECIES", "Sparkleferret", 1, true),
+        new Field("SEX", "Herm", 2, true),
+        new Field("AGE", "430 (looks 16)", -1, false),
+        new Field("EYES", "Octarine", -1, false),
+        new Field("FUR", "Lime green", -1, false),
+        new Field("HAIR", "Magenta", -1, false),
+        new Field("BUILD", "Stacked AF", -1, false),
+        new Field("HEIGHT", "8'13\"", -1, false)
+    ]);
+    uiGenerateFooterSection("Outfit", 1, [
+        new Field("OUTFIT", "Band tee and tripp pants.", -1, false),
+        new Field("|-> TOP", "Fluorescent yellow \"Hyperderp\" band tee.", -1, false),
+        new Field("|-> BOTTOM", "Cyan bondage pants with caution orange straps.", -1, false)
+    ])
 }
-
-function init_desc_fields() {
-    desc_field("NAME", "name", true, 0);
-    desc_field("SPECIES", "species", true, 1);
-    desc_field("SEX", "sex", true, 2);
-    desc_field("AGE", "age");
-    desc_field("EYES", "eyes");
-    desc_field("HAIR", "hair");
-    desc_field("FUR", "fur");
-    desc_field("BUILD", "build");
-    desc_field("HEIGHT", "height");
-
-}
-
-function remove_field(rid) {
-    $('.removeclass'+rid).remove();
-    validFields.splice(validFields.indexOf(rid), 1);
-}
-
-
 
 // Define fields:
 class Field {
     constructor(name, value, column, priority) {
         this.name = name;
         this.value = value;
-        this.column = column;
-        this.priority = priority;
+        if(typeof column === "number") {
+            this.column = column;
+        } else if (typeof column === "string" && !isNaN(Number(column))) {
+            this.column = Number(column);
+        } else {
+            this.column = -1;
+        }
+        if(priority === true || priority === 'true') {
+            this.priority = true;
+        } else {
+            this.priority = false;
+        }
     }
 
     asText() {
         return this.name + ": " + this.value;
-    }
-}
-
-class Column {
-    constructor() {
-
     }
 }
 
@@ -226,10 +253,27 @@ class Section {
         }
     }
 
+    // assignAutomaticFields(cols, automaticFields, numRows) {
+    //     for (let j = 0; j < automaticFields.length; j++) {
+    //         let targetColumn = this.getIndexOfShortestFitColumnWithRoomLeft(cols, automaticFields[j].asText(), numRows);
+    //         cols[targetColumn].push(automaticFields[j]);
+    //     }
+    // }
+
     assignAutomaticFields(cols, automaticFields, numRows) {
+        automaticFields.sort(this.strLenComparator);
         for (let j = 0; j < automaticFields.length; j++) {
-            let targetColumn = this.getIndexOfShortestFitColumnWithRoomLeft(cols, automaticFields[j].asText(), numRows);
-            cols[targetColumn].push(automaticFields[j]);
+            let slotFound = false;
+            for(let i = 0; i < cols.length; ++i) {
+                if(cols[i].length < numRows) {
+                    slotFound = true;
+                    cols[i].push(automaticFields[j]);
+                    break;
+                }
+            }
+            if(!slotFound) {
+                cols[0].push(automaticFields[j]);
+            }
         }
     }
 
@@ -286,7 +330,7 @@ class Section {
     getDesignatedPriorityFields(fields) {
         let rval = []
         for(let i = 0; i < fields.length; i++) {
-            if(fields[i].column !== '-1' && fields[i].priority === true) {
+            if(fields[i].column !== -1 && fields[i].priority === true) {
                 rval.push(fields[i]);
             }
         }
@@ -296,7 +340,7 @@ class Section {
     getAutomaticPriorityFields(fields) {
         let rval = []
         for(let i = 0; i < fields.length; i++) {
-            if(fields[i].column === '-1' && fields[i].priority === true) {
+            if(fields[i].column === -1 && fields[i].priority === true) {
                 rval.push(fields[i]);
             }
         }
@@ -306,7 +350,7 @@ class Section {
     getDesignatedNormalFields(fields) {
         let rval = []
         for(let i = 0; i < fields.length; i++) {
-            if(fields[i].column !== '-1' && fields[i].priority === false) {
+            if(fields[i].column !== -1 && fields[i].priority === false) {
                 rval.push(fields[i]);
             }
         }
@@ -316,7 +360,7 @@ class Section {
     getAutomaticNormalFields(fields) {
         let rval = []
         for(let i = 0; i < fields.length; i++) {
-            if(fields[i].column === '-1' && fields[i].priority === false) {
+            if(fields[i].column === -1 && fields[i].priority === false) {
                 rval.push(fields[i]);
             }
         }
@@ -401,17 +445,58 @@ function updateValuesFromForm() {
     cornerCharacter = getValueOrEmptyString('CornerCharacter');
     doFooter = document.getElementById("DoFooter").checked;
     isHeader = document.getElementById("IsHeader").checked;
-    numColumns = getValueOrEmptyString('NumColumns');
-    fieldSeparator = getValueOrEmptyString('FieldSeparator');
-    fields = [];
-    for (let i = 0; i < validFields.length; i++) {
-        fields.push(new Field(getValueOrEmptyString("FieldName" + validFields[i]),
-            getValueOrEmptyString('FieldValue' + validFields[i]),
-            getValueOrEmptyString("ColumnIndicator" + validFields[i]),
-            document.getElementById("IsPriority" + validFields[i]).checked));
+    numColumns = [];
+    for(let i = 0; i < uiValidSections.length; i++) {
+        numColumns.push(getValueOrEmptyString('SectionNumColumns' + uiValidSections[i]));
     }
+    fieldSeparator = getValueOrEmptyString('FieldSeparator');
+    updateAllFieldsFromSections();
     lineSeparator = generateSeparator();
 }
+
+function updateAllFieldsFromSections() {
+    fields = []
+    for (let i = 0; i < uiValidSections.length; i++) {
+        fields.push(updateFieldsFromSection(uiValidSections[i]));
+    }
+}
+
+function updateFieldsFromSection(sectionNumber) {
+    let currFields = [];
+    let sectionNames = getValueOrEmptyString("SectionNames" + sectionNumber).trimEnd().split("\n");
+    let sectionValues = getValueOrEmptyString("SectionValues" + sectionNumber).trimEnd().split("\n");
+    let sectionColumnNumber = getValueOrEmptyString("SectionColumnNumber" + sectionNumber).trimEnd().split("\n");
+    let sectionIsPriority = getValueOrEmptyString("SectionIsPriority" + sectionNumber).trimEnd().split("\n");
+
+    let lengthOfShortestArray = getLengthOfShortestArrayInArray([
+        sectionNames,
+        sectionValues,
+        sectionColumnNumber,
+        sectionIsPriority
+    ]);
+
+    for(let i = 0; i < lengthOfShortestArray; i++) {
+        currFields.push(new Field(
+            sectionNames[i],
+            sectionValues[i],
+            sectionColumnNumber[i],
+            sectionIsPriority[i]
+        ))
+    }
+    return currFields;
+}
+
+function getLengthOfShortestArrayInArray(arrays) {
+    let lengthOfShortestArray = Number.MAX_SAFE_INTEGER;
+    for(let i=0; i<arrays.length; i++) {
+        if(arrays[i].length < lengthOfShortestArray) {
+            lengthOfShortestArray = arrays[i].length;
+        }
+    }
+    return lengthOfShortestArray;
+}
+
+
 
 //General implementation
 function getValueOrEmptyString(elementId) {
@@ -495,7 +580,11 @@ function generateDesc() {
     }
 
     let footer = new Footer(paddingLeft, paddingRight, lineSeparator, fieldSeparator);
-    footer.createSection(fields, numColumns);
+
+    for(let i = 0; i < fields.length; ++i) {
+        footer.createSection(fields[i], numColumns[i]);
+    }
+
 
     if(isHeader) {
         if(doFooter) {
