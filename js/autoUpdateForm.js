@@ -705,7 +705,7 @@ class MorphContext {
         this.scent = getValueOrEmptyString("ScentMessage");
         this.sex = getValueOrEmptyString("SexProperty");
         this.species = getValueOrEmptyString("SpeciesProperty");
-        this.notify = document.getElementById("DoNotify").checked;
+        this.notify = getValueOrEmptyString("NotifyStyle");
         this.desc = getValueOrEmptyString("OutputDesc");
         this.isUpdate = document.getElementById("IsMorphUpdate").checked;
     }
@@ -729,9 +729,12 @@ function generateMorph() {
     outString += ".end\n";
 
     let listDisplayMpi = "{list:/tooldescs/" + context.command + "}";
-    if(context.notify) {
+    if(context.notify === "mpi") {
         outString += generateCommand("@set", "me", "/tripwire:" + lookNotifyMpi);
         outString += generateCommand("@desc", "me", "{exec:tripwire}" + listDisplayMpi);
+    } else if (context.notify === "standard") {
+        outString += generateCommand("@set", "me", "_look/notify:yes");
+        outString += generateCommand("@set", "me", "_look/notify-contents:yes");
     } else {
         outString += generateCommand("@desc", "me", listDisplayMpi);
     }

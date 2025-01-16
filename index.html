@@ -150,35 +150,45 @@ She happily waves at you and comes and shakes your hand and nuzzles you and wond
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="form-group row p-1">
-                            <div class="col-3 text-end align-self-end"><label class="form-label px-2" for="MorphCommand">Command</label></div>
+                            <div class="col-3 text-end align-self-center"><label class="form-label px-2 my-0" for="MorphCommand">Command</label></div>
                             <div class="col-9"><input type="text" class="form-input form-control morph-updater px-2" id="MorphCommand" value="casual"></div>
                         </div>
                         <div class="form-group row p-1">
-                            <div class="col-3 text-end align-self-end"><label class="form-label px-2" for="MorphName">Name</label></div>
+                            <div class="col-3 text-end align-self-center"><label class="form-label px-2  my-0" for="MorphName">Name</label></div>
                             <div class="col-9"><input type="text" class="form-input form-control morph-updater px-2" id="MorphName" value="Moniker -- herm sparkleferret -- tee & tripps"></div>
                         </div>
                         <div class="form-group row p-1">
-                            <div class="col-3 text-end align-self-end"><label class="form-label px-2" for="MorphMessage">Message</label></div>
+                            <div class="col-3 text-end align-self-center"><label class="form-label px-2 my-0" for="MorphMessage">Message</label></div>
                             <div class="col-9"><input type="text" class="form-input form-control morph-updater px-2" id="MorphMessage" value="changes into her casual outfit!!!!"></div>
                         </div>
                         <div class="form-group row p-1">
-                            <div class="col-3 text-end align-self-end"><label class="form-label px-2" for="ScentMessage">Scent</label></div>
+                            <div class="col-3 text-end align-self-center"><label class="form-label px-2 my-0" for="ScentMessage">Scent</label></div>
                             <div class="col-9"><input type="text" class="form-input form-control morph-updater px-2" id="ScentMessage" value="Moniker smells divine~"></div>
                         </div>
                         <div class="form-group row p-1">
-                            <div class="col-2 text-end align-self-end"><label class="form-label px-2" for="SexProperty">Gender/Sex</label></div>
-                            <div class="col-4"><input type="text" class="form-input form-control morph-updater px-2" id="SexProperty" value="<3 Herm <3"></div>
-                            <div class="col-2 text-end align-self-end"><label class="form-label px-2" for="SpeciesProperty">Species</label></div>
-                            <div class="col-4"><input type="text" class="form-input form-control morph-updater px-2" id="SpeciesProperty" value="Sparkleferret!"></div>
-                        </div>
-                        <div class="form-group row p-3">
-                            <div class="col d-inline-flex justify-content-center">
-                                <div class="text-end align-self-end"><label class="form-label px-1" for="DoNotify">Include look notify?</label></div>
-                                <input type="checkbox" class="form-check-input form-control morph-updater px-1" id="DoNotify" checked>
+                            <div class="col-sm d-inline-flex justify-content-center p-1">
+                                <div class="flex-fill text-end align-self-center"><label class="form-label px-2 my-0" for="SexProperty">Gender/Sex</label></div>
+                                <div class="flex-fill"><input type="text" class="form-input form-control morph-updater px-2" id="SexProperty" value="<3 Herm <3"></div>
                             </div>
-                            <div class="col d-inline-flex justify-content-center">
-                                <div class="text-end align-self-end"><label class="form-label px-1" for="DoNotify">Updating existing morph?</label></div>
-                                <input type="checkbox" class="form-check-input form-control morph-updater px-1" id="IsMorphUpdate">
+                            <div class="col-sm d-inline-flex justify-content-center p-1">
+                                <div class="flex-fill text-end align-self-center"><label class="form-label px-2 my-0" for="SpeciesProperty">Species</label></div>
+                                <div class="flex-fill"><input type="text" class="form-input form-control morph-updater px-2" id="SpeciesProperty" value="Sparkleferret!"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row p-1">
+                            <div class="col-sm d-inline-flex justify-content-center p-1">
+                                <div class=" flex-fill text-end align-self-center"><label class="form-label px-2 my-0" for="NotifyStyle">Look notify</label></div>
+                                <div class="flex-fill align-content-center">
+                                    <select class="form-control morph-updater px-2" id="NotifyStyle">
+                                        <option value="none">None</option>
+                                        <option value="standard">Standard (recommended)</option>
+                                        <option value="mpi">MPI (special use-cases)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm d-inline-flex justify-content-center p-3">
+                                <div class="text-end align-self-center "><label class="form-label px-2 my-0" for="IsMorphUpdate">Updating existing morph?</label></div>
+                                <input type="checkbox" class="align-self-center form-check-input form-control morph-updater px-2" id="IsMorphUpdate">
                             </div>
                         </div>
                         <div class="form-group row p-1">
