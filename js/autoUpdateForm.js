@@ -15,8 +15,38 @@ function init_handlers() {
 }
 
 function updateOutputDescField() {
+    try {
+        updateOutputDescFieldUnhandled();
+    } catch (err) {
+        updateUiWithError(err);
+    }
+}
+
+function updateOutputDescFieldUnhandled() {
     $("#OutputDesc").val(generateDesc($(this).attr("id")))
 }
+
+let uiCurrError = 0;
+let uiValidErrors = [];
+function updateUiWithError(error) {
+    let objTo = document.getElementById('errorMessages')
+    let errorDiv = document.createElement("div");
+    errorDiv.setAttribute("class", "form-group removeErrorClass"+uiCurrError);
+    errorDiv.innerHTML =
+        '<div class="alert alert-danger fade show row" role="alert">' +
+        '  <strong class="col-3 align-content-center">*sad noises*</strong>' +
+        '  <div class="col-6 text-center align-content-center">' + error.name + ': ' + error.message + '</div>' +
+        '  <div class="col-3 text-end align-content-center"><button class="btn btn-outline-danger text-center" type="button" onclick="uiRemoveError('+ uiCurrError +');">Hide Error</button></div>' +
+        '</div>'
+    objTo.appendChild(errorDiv);
+    uiValidErrors.push(uiCurrError++);
+}
+
+function uiRemoveError(rid) {
+    $('.removeErrorClass'+rid).remove();
+    uiValidSections.splice(uiValidSections.indexOf(rid), 1);
+}
+
 
 // Field creation/destruction code
 let uiCurrSection = 0;
@@ -54,7 +84,6 @@ function uiGenerateFooterSection(sectionName, numColumns, numDisplayedRows, fiel
         '</div>';
     objTo.appendChild(sectionDiv);
     uiValidSections.push(uiCurrSection++);
-    console.log("Section created.")
 }
 
 function uiRemoveSection(rid) {
@@ -103,7 +132,14 @@ function fieldPrioritiesToNewlineDelimitedString(fields) {
 }
 
 function init() {
-    init_handlers();
+    try {
+        initUnhandled();
+    } catch (err) {
+        updateUiWithError(err);
+    }
+}
+
+function initUnhandled() {
     uiGenerateFooterSection("Main Stats", 3, 12, [
         new Field("NAME", "Moniker", 0, true),
         new Field("SPECIES", "Sparkleferret", 1, true),
@@ -119,7 +155,8 @@ function init() {
         new Field("OUTFIT", "Band tee and tripp pants.", -1, false),
         new Field("|-> TOP", "Fluorescent yellow \"Hyperderp\" band tee.", -1, false),
         new Field("|-> BOTTOM", "Cyan bondage pants with caution orange straps.", -1, false)
-    ])
+    ]);
+    init_handlers();
 }
 
 // Define fields:
@@ -186,6 +223,20 @@ class Section {
         this.paddingRight = paddingRight;
         this.lineSeparator = lineSeparator;
         this.fieldSeparator = fieldSeparator;
+        this.sanitize();
+    }
+
+    sanitize() {
+        for(let i = 0; i < this.fields.length; i++) {
+            if (this.fields[i].column > this.numColumns-1) {
+                this.fields[i].column = this.numColumns-1;
+            } else if (this.fields[i].column < -1) {
+                this.fields[i].column = -1;
+            }
+        }
+        if(this.numColumns < 1) {
+            this.numColumns = 1;
+        }
     }
 
     generateSection(width, isHeader) {
@@ -432,7 +483,6 @@ var borderCharacter = "";
 var cornerCharacter = "";
 var doFooter = "";
 var isHeader = "";
-var numColumns = 3;
 var fields = [];
 var lineSeparator = "";
 var fieldSeparator = "";
@@ -448,14 +498,25 @@ function updateValuesFromForm() {
     cornerCharacter = getValueOrEmptyString('CornerCharacter');
     doFooter = document.getElementById("DoFooter").checked;
     isHeader = document.getElementById("IsHeader").checked;
+    addLink = document.getElementById("AddLink").checked;
     numColumns = [];
     for(let i = 0; i < uiValidSections.length; i++) {
         numColumns.push(getValueOrEmptyString('SectionNumColumns' + uiValidSections[i]));
     }
     fieldSeparator = getValueOrEmptyString('FieldSeparator');
     updateAllFieldsFromSections();
+
+    sanitizeValues();
     lineSeparator = generateSeparator();
-    addLink = document.getElementById("AddLink").checked;
+}
+
+function sanitizeValues() {
+    if(width < 1 || width > 1023) {
+        width = 79;
+    }
+    if(seperatorPattern === "") {
+        seperatorPattern = "-";
+    }
 }
 
 function updateAllFieldsFromSections() {
