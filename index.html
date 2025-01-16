@@ -11,22 +11,28 @@
         textarea {
             font-family: monospace;
         }
+        .form-control {
+             border: 1px solid rgba(0,0,0,0.5)
+        }
     </style>
 </head>
-<body onload="init(); updateOutputDescField();">
+<body onload="init();">
+
+    <!-- Page title -->
     <div class="container-fluid p-5 bg-primary text-white text-center">
         <h1>Nivik's Desc Tool</h1>
         <p>It formats descs for you. Just start typing!</p>
         <p>TODO: save state between sessions? list of saved descriptions (in cookies probably)?</p>
     </div>
 
+    <!-- Error message area -->
     <div class="container-fluid sticky-top my-5">
         <div id="errorMessages">
         </div>
     </div>
 
+    <!-- Main description settings and input -->
     <div class="container-fluid my-5">
-
         <div class="row">
             <div class="col-sm-12"><div style="text-align: center;"><h4>Input Desc & Options</h4></div></div>
         </div>
@@ -40,67 +46,71 @@ She happily waves at you and comes and shakes your hand and nuzzles you and wond
                 </div>
             </div>
             <div class="col-sm-5">
-                <div class ="form-group">
-                    <label class="form-label" for="FixedWidthValue">Width</label>
-                    <input type="text" class="desc-updater" id="FixedWidthValue" name="FixedWidthValue" value="79">
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label" for="DoWrap">Let client wrap?</label>
-                    <input type="checkbox" class="form-check-input desc-updater" id="DoWrap" checked>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label" for="DoBorder">Add border?</label>
-                    <input type="checkbox" class="form-check-input desc-updater" id="DoBorder">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="SeparatorPattern">Seperator Pattern</label>
-                    <input type="text" class="desc-updater" id="SeparatorPattern" name="SeparatorPattern" value="-">
-                </div>
-                <div class="form-group border-dependent" hidden>
-                    <label class="form-label" for="BorderCharacter">Vertical Character</label>
-                    <input type="text" class="desc-updater" id="BorderCharacter" name="BorderCharacter" value="|">
-                </div>
-                <div class="form-group border-dependent" hidden>
-                    <label class="form-label" for="CornerCharacter">Corner Character</label>
-                    <input type="text" class="desc-updater" id="CornerCharacter" name="CornerCharacter" value="+">
+                <div class="d-flex flex-column align-content-center">
+                    <div class ="form-group d-inline-flex">
+                        <label class="form-label p-1" for="FixedWidthValue">Width</label>
+                        <input type="text" class="desc-updater form-control p-1" id="FixedWidthValue" name="FixedWidthValue" value="79">
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label p-1" for="DoWrap">Let client wrap?</label>
+                        <input type="checkbox" class="form-control form-check-input desc-updater p-1" id="DoWrap" checked>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label p-1" for="DoBorder">Add border?</label>
+                        <input type="checkbox" class="form-check-input form-control desc-updater p-1" id="DoBorder">
+                    </div>
+                    <div class="form-group d-inline-flex">
+                        <label class="form-label p-1" for="SeparatorPattern">Seperator Pattern</label>
+                        <input type="text" class="desc-updater form-control p-1" id="SeparatorPattern" name="SeparatorPattern" value="-">
+                    </div>
+                    <div class="form-group border-dependent" hidden>
+                        <label class="form-label p-1" for="BorderCharacter">Vertical Character</label>
+                        <input type="text" class="desc-updater form-control p-1" id="BorderCharacter" name="BorderCharacter" value="|">
+                    </div>
+                    <div class="form-group border-dependent" hidden>
+                        <label class="form-label p-1" for="CornerCharacter">Corner Character</label>
+                        <input type="text" class="desc-updater form-control p-1" id="CornerCharacter" name="CornerCharacter" value="+">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!--Footer settings and input-->
     <div class="container-fluid my-5 bg-body-tertiary">
         <div class="row">
-            <div class="col-sm-12"><div style="text-align: center;"><h4>Header/Footer</h4></div></div>
+            <div class="col"><div style="text-align: center;"><h4>Header/Footer</h4></div></div>
         </div>
-        <div class="row align-items-start">
-            <div class="col-3">
-                <div class="form-group">
-                    <label class="form-label" for="DoFooter">Generate?</label>
-                    <input type="checkbox" class="form-check-input desc-updater" id="DoFooter" checked>
+        <div class="row align-items-center">
+            <div class="col">
+                <div class="form-group form-check">
+                    <label class="form-label px-1" for="DoFooter">Generate?</label>
+                    <input type="checkbox" class="form-check-input form-control desc-updater px-1" id="DoFooter" checked>
                 </div>
             </div>
-            <div class="col-3">
-                <div class="form-group">
-                    <label class="form-label" for="IsHeader">As header?</label>
-                    <input type="checkbox" class="form-check-input desc-updater" id="IsHeader">
+            <div class="col">
+                <div class="form-group form-check">
+                    <label class="form-label px-1" for="IsHeader">As header?</label>
+                    <input type="checkbox" class="form-check-input form-control desc-updater px-1" id="IsHeader">
                 </div>
             </div>
-            <div class="col-3">
-                <div class="form-group">
-                    <label class="form-label" for="AddLink">Pimp this tool?</label>
-                    <input type="checkbox" class="form-check-input desc-updater" id="AddLink" checked>
+            <div class="col">
+                <div class="form-group form-check">
+                    <label class="form-label px-1" for="AddLink">Pimp this tool?</label>
+                    <input type="checkbox" class="form-check-input form-control desc-updater px-1" id="AddLink" checked>
                 </div>
             </div>
-            <div class="col-3">
-                <div class="form-group">
-                    <label class="form-label" for="FieldSeparator">Field Separator</label>
-                    <input type="text" class="form-input desc-updater" id="FieldSeparator" value=" |-| ">
+            <div class="col">
+                <div class="form-group d-inline-flex">
+                    <label class="form-label px-1 text-center" for="FieldSeparator">Field Separator</label>
+                    <input type="text" class="form-input form-control desc-updater px-1" id="FieldSeparator" value=" |-| ">
                 </div>
             </div>
 
         </div>
 
         <div id="footer_sections">
+            <!-- sections are dynamically populated here -->
         </div>
 
         <div class="row my-3">
@@ -111,25 +121,87 @@ She happily waves at you and comes and shakes your hand and nuzzles you and wond
 
     </div>
 
+
+    <!-- Generated description -->
     <div class="container-fluid my-5">
-        <div class="row">
-            <div class="col-sm-12"><div style="text-align: center;"><h4>Generated Description</h4></div></div>
+        <div class="row text-center">
+            <div class="row justify-content-end p-2">
+                <div class="col-4"><h4>Generated Description</h4></div>
+                <div class="col-4 text-end"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#morphModal">Generate Morph</button></div>
+            </div>
         </div>
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <textarea class="form-control" id="OutputDesc" rows="17"></textarea>
+                    <textarea class="form-control desc-update-target morph-updater" id="OutputDesc" rows="17"></textarea>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Modal for Morph Hammer  -->
+    <div id="morphModal" class="modal fade modal-xl" tabindex="-1" role="dialog" aria-labelledby="morphModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen modal-fullscreen-md-down" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5" id="morphModalTitle">Morph Generator</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group row p-1">
+                            <div class="col-3 text-end align-self-end"><label class="form-label px-2" for="MorphCommand">Command</label></div>
+                            <div class="col-9"><input type="text" class="form-input form-control morph-updater px-2" id="MorphCommand" value="casual"></div>
+                        </div>
+                        <div class="form-group row p-1">
+                            <div class="col-3 text-end align-self-end"><label class="form-label px-2" for="MorphName">Name</label></div>
+                            <div class="col-9"><input type="text" class="form-input form-control morph-updater px-2" id="MorphName" value="Moniker -- herm sparkleferret -- tee & tripps"></div>
+                        </div>
+                        <div class="form-group row p-1">
+                            <div class="col-3 text-end align-self-end"><label class="form-label px-2" for="MorphMessage">Message</label></div>
+                            <div class="col-9"><input type="text" class="form-input form-control morph-updater px-2" id="MorphMessage" value="changes into her casual outfit!!!!"></div>
+                        </div>
+                        <div class="form-group row p-1">
+                            <div class="col-3 text-end align-self-end"><label class="form-label px-2" for="ScentMessage">Scent</label></div>
+                            <div class="col-9"><input type="text" class="form-input form-control morph-updater px-2" id="ScentMessage" value="Moniker smells divine~"></div>
+                        </div>
+                        <div class="form-group row p-1">
+                            <div class="col-2 text-end align-self-end"><label class="form-label px-2" for="SexProperty">Gender/Sex</label></div>
+                            <div class="col-4"><input type="text" class="form-input form-control morph-updater px-2" id="SexProperty" value="<3 Herm <3"></div>
+                            <div class="col-2 text-end align-self-end"><label class="form-label px-2" for="SpeciesProperty">Species</label></div>
+                            <div class="col-4"><input type="text" class="form-input form-control morph-updater px-2" id="SpeciesProperty" value="Sparkleferret!"></div>
+                        </div>
+                        <div class="form-group row p-3">
+                            <div class="col d-inline-flex justify-content-center">
+                                <div class="text-end align-self-end"><label class="form-label px-1" for="DoNotify">Include look notify?</label></div>
+                                <input type="checkbox" class="form-check-input form-control morph-updater px-1" id="DoNotify" checked>
+                            </div>
+                            <div class="col d-inline-flex justify-content-center">
+                                <div class="text-end align-self-end"><label class="form-label px-1" for="DoNotify">Updating existing morph?</label></div>
+                                <input type="checkbox" class="form-check-input form-control morph-updater px-1" id="IsMorphUpdate">
+                            </div>
+                        </div>
+                        <div class="form-group row p-1">
+                            <div class="col text-center"><h6>Commands to copy/paste in:</h6></div>
+                        </div>
+                        <div class="form-group row p-1">
+                            <div class="col">
+                                <textarea class="form-control morph-update-target" id="MorphOutput" rows="29"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page footer -->
     <footer class="text-center bg-primary text-white fixed-bottom">
         <section class="d-flex  border-bottom">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-4 d-flex justify-content-start">
-                        v0.20250116.2
+                        v0.20250116.3
                     </div>
                     <div class="col-4 d-flex justify-content-center">
                         CC BY-NC-SA 4.0
