@@ -1,3 +1,23 @@
+// Define handlers
+function init_handlers() {
+    // Event handlers
+    $("#DoBorder").on("change", function () {
+        if (this.checked) {
+            $(".border-dependent").attr('hidden', false);
+        } else {
+            $(".border-dependent").attr('hidden', true);
+        }
+    })
+
+    $("body").on("change input", ".desc-updater", function () {
+        updateOutputDescField()
+    })
+}
+
+function updateOutputDescField() {
+    $("#OutputDesc").val(generateDesc($(this).attr("id")))
+}
+
 // Field creation/destruction code
 let uiCurrSection = 0;
 let uiValidSections = [];
@@ -80,21 +100,6 @@ function fieldPrioritiesToNewlineDelimitedString(fields) {
         text += fields[i].priority + "\n"
     }
     return text.substring(0, text.length - 1); // remove last \n
-}
-
-function init_handlers() {
-    // Event handlers
-    $("#DoBorder").on("change", function () {
-        if (this.checked) {
-            $(".border-dependent").attr('hidden', false);
-        } else {
-            $(".border-dependent").attr('hidden', true);
-        }
-    })
-
-    $("body").on("change input load", ".desc-updater", function () {
-        $("#OutputDesc").val(generateDesc($(this).attr("id")))
-    })
 }
 
 function init() {
@@ -191,9 +196,7 @@ class Section {
         this.padItemValuesInColumns(columns);
         let columnsAsText = this.convertColumnsToText(columns)
         let outString = "";
-        if(isHeader) {
-            outString = outString + this.lineSeparator;
-        }
+        outString = outString + this.lineSeparator;
         for (let i = 0; i < numRows; i++) {
             let currLine = ""
             currLine += this.paddingLeft;
@@ -205,9 +208,6 @@ class Section {
             currLine = currLine.substring(0, currLine.length - this.fieldSeparator.length).padEnd(width-this.paddingRight.length-1, " ");
             currLine = currLine + this.paddingRight + "\n";
             outString += currLine;
-        }
-        if(!isHeader) {
-            outString = outString + this.lineSeparator;
         }
         return outString;
     }
@@ -436,6 +436,7 @@ var numColumns = 3;
 var fields = [];
 var lineSeparator = "";
 var fieldSeparator = "";
+var addLink = "";
 
 function updateValuesFromForm() {
     width = getValueOrEmptyString('FixedWidthValue');
@@ -454,6 +455,7 @@ function updateValuesFromForm() {
     fieldSeparator = getValueOrEmptyString('FieldSeparator');
     updateAllFieldsFromSections();
     lineSeparator = generateSeparator();
+    addLink = document.getElementById("AddLink").checked;
 }
 
 function updateAllFieldsFromSections() {
@@ -520,7 +522,6 @@ function generateMainDesc(paddingLeft, paddingRight) {
     }
 
     outString += "\n";
-    outString += lineSeparator;
 
     return outString;
 }
@@ -569,6 +570,16 @@ function generateSeparator() {
 }
 
 
+let link = "[created @ http://desc.nivik.net/ ]"
+function generateSeparatorWithLink() {
+    let separator = generateSeparator();
+    let insertPosition = separator.length-link.length-5;
+    let frontSep = separator.slice(0, insertPosition);
+    let endSep = separator.slice(insertPosition+link.length, separator.length-1);
+    return frontSep + link + endSep;
+}
+
+
 // Logic
 function generateDesc() {
     updateValuesFromForm();
@@ -598,6 +609,12 @@ function generateDesc() {
         if(doFooter) {
             outDesc = outDesc + footer.render(paddingLeft, paddingRight, width, isHeader);
         }
+    }
+
+    if(addLink) {
+        outDesc += generateSeparatorWithLink();
+    } else {
+        outDesc += lineSeparator;
     }
 
     // add a space to all newlines for lsedit compatibility

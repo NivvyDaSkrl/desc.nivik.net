@@ -13,7 +13,7 @@
         }
     </style>
 </head>
-<body onload="init();">
+<body onload="init();updateOutputDescField();">
     <div class="container-fluid p-5 bg-primary text-white text-center">
         <h1>Nivik's Desc Tool</h1>
         <p>It formats descs for you. Just start typing!</p>
@@ -64,24 +64,30 @@ She happily waves at you and comes and shakes your hand and nuzzles you and wond
         </div>
     </div>
 
-    <div class="container-fluid my-5">
+    <div class="container-fluid my-5 bg-body-tertiary">
         <div class="row">
             <div class="col-sm-12"><div style="text-align: center;"><h4>Header/Footer</h4></div></div>
         </div>
         <div class="row align-items-start">
-            <div class="col-sm-4">
+            <div class="col-3">
                 <div class="form-group">
                     <label class="form-label desc-updater" for="DoFooter">Generate?</label>
                     <input type="checkbox" class="form-check-input desc-updater" id="DoFooter" checked>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-3">
                 <div class="form-group">
                     <label class="form-label desc-updater" for="IsHeader">As header?</label>
                     <input type="checkbox" class="form-check-input desc-updater" id="IsHeader">
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-3">
+                <div class="form-group">
+                    <label class="form-label desc-updater" for="AddLink">Pimp this tool?</label>
+                    <input type="checkbox" class="form-check-input desc-updater" id="AddLink" checked>
+                </div>
+            </div>
+            <div class="col-3">
                 <div class="form-group">
                     <label class="form-label" for="FieldSeparator">Field Separator</label>
                     <input type="text" class="form-input desc-updater" id="FieldSeparator" value=" |-| ">
@@ -108,13 +114,13 @@ She happily waves at you and comes and shakes your hand and nuzzles you and wond
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <textarea class="form-control" id="OutputDesc" rows="20"></textarea>
+                    <textarea class="form-control" id="OutputDesc" rows="17"></textarea>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="text-center bg-primary text-white">
+    <footer class="text-center bg-primary text-white fixed-bottom">
         <section class="d-flex  border-bottom">
             <div class="container-fluid">
                 <div class="row">
