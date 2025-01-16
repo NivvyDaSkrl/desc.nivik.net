@@ -735,6 +735,7 @@ function generateMorph() {
     } else if (context.notify === "standard") {
         outString += generateCommand("@set", "me", "_look/notify:yes");
         outString += generateCommand("@set", "me", "_look/notify-contents:yes");
+        outString += generateCommand("@desc", "me", listDisplayMpi);
     } else {
         outString += generateCommand("@desc", "me", listDisplayMpi);
     }
