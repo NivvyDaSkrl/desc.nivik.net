@@ -730,7 +730,8 @@ function generateMorph() {
 
     let listDisplayMpi = "{list:/tooldescs/" + context.command + "}";
     if(context.notify) {
-        outString += generateCommand("@desc", "me", lookNotifyMpi + listDisplayMpi);
+        outString += generateCommand("@set", "me", "/tripwire:" + lookNotifyMpi);
+        outString += generateCommand("@desc", "me", "{exec:tripwire}" + listDisplayMpi);
     } else {
         outString += generateCommand("@desc", "me", listDisplayMpi);
     }
