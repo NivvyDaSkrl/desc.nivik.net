@@ -9,9 +9,17 @@ function init_handlers() {
         }
     })
 
-    $("body").on("change input", ".desc-updater", function () {
-        updateOutputDescField()
-    })
+    $("body").on("change input", ".desc-updater", updateOutputDescField);
+
+    $("body").on("change input", ".morph-updater", updateMorph);
+}
+
+function updateMorph() {
+    try {
+        updateMorphUnhandled();
+    } catch (err) {
+        updateUiWithError(err);
+    }
 }
 
 function updateOutputDescField() {
@@ -23,7 +31,13 @@ function updateOutputDescField() {
 }
 
 function updateOutputDescFieldUnhandled() {
-    $("#OutputDesc").val(generateDesc($(this).attr("id")))
+    let generatedDesc = generateDesc();
+    $(".desc-update-target").val(generatedDesc);
+}
+
+function updateMorphUnhandled() {
+    let generatedMorph = generateMorph();
+    $(".morph-update-target").val(generatedMorph);
 }
 
 let uiCurrError = 0;
@@ -57,29 +71,23 @@ function uiGenerateFooterSection(sectionName, numColumns, numDisplayedRows, fiel
     sectionDiv.setAttribute("class", "form-group removeSectionClass"+uiCurrSection);
     sectionDiv.innerHTML =
         '<div class="container-fluid my-4">' +
-        '  <div class = "row align-items-start">' +
-        '    <div class="col-12 nopadding"><div style="text-align: center;"><h4>' + sectionName + '</h4></div></div>' +
+        '  <div class = "row align-items-center">' +
+        '    <div class="col nopadding"><div style="text-align: center;"><h4>' + sectionName + '</h4></div></div>' +
         '  </div>' +
-        '  <div class = "row align-items-start">' +
-        '    <div class="col-6">' +
-        '      <div class="form-group d-inline-flex">' +
+        '  <div class = "row align-items-center">' +
+        '    <div class="col">' +
+        '      <div class="form-group d-inline-flex align-items-center">' +
         '        <label class="form-label mx-1" style="min-width: 85px" for="SectionNumColumns' + uiCurrSection + '">Number of Columns</label>' +
         '        <input type="text" class="form-control desc-updater mx-1" style="min-width: 45px; max-width: 100px" id="SectionNumColumns' + uiCurrSection + '" value="' + numColumns + '">' +
         '      </div>' +
         '    </div>' +
-        '    <div class="col-6 form-group text-end"><button class="btn btn-danger" type="button" onclick="uiRemoveSection('+ uiCurrSection +');">Remove Section</button></div>' +
-        '  </div>' +
-        '  <div class = "row align-items-start my-2">' +
-        '    <div class="col-3 nopadding"><div style="text-align: center;">Names</div></div>' +
-        '    <div class="col-3 nopadding"><div style="text-align: center;">Values</div></div>' +
-        '    <div class="col-3 nopadding"><div style="text-align: center;">Position/Column</div></div>' +
-        '    <div class="col-3 nopadding"><div style="text-align: center;">Is Priority?</div></div>' +
+        '    <div class="col form-group text-end"><button class="btn btn-danger" type="button" onclick="uiRemoveSection('+ uiCurrSection +');">Remove Section</button></div>' +
         '  </div>' +
         '  <div class = "row align-items-start">' +
-        '    <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="'+ numDisplayedRows +'" id="SectionNames' + uiCurrSection + '">' + fieldNamesToNewlineDelimitedString(fields) + '</textarea></div></div>' +
-        '    <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="'+ numDisplayedRows +'" id="SectionValues' + uiCurrSection + '">' + fieldValuesToNewlineDelimitedString(fields) + '</textarea></div></div>' +
-        '    <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="'+ numDisplayedRows +'" id="SectionColumnNumber' + uiCurrSection + '">' + fieldColumnNumbersToNewlineDelimitedString(fields) + '</textarea></div></div>' +
-        '    <div class="col-3 nopadding"><div class="form-group"><textarea class="form-control desc-updater" rows="'+ numDisplayedRows +'" id="SectionIsPriority' + uiCurrSection + '">' + fieldPrioritiesToNewlineDelimitedString(fields) + '</textarea></div></div>' +
+        '    <div class="col nopadding"><div class="form-updateOutputDescField(); updateMorph();group d-inline-flex flex-column"><div class="text-center p-1">Names</div><textarea class="form-control desc-updater" rows="'+ numDisplayedRows +'" id="SectionNames' + uiCurrSection + '">' + fieldNamesToNewlineDelimitedString(fields) + '</textarea></div></div>' +
+        '    <div class="col nopadding"><div class="form-group d-inline-flex flex-column"><div class="text-center p-1">Values</div><textarea class="form-control desc-updater" rows="'+ numDisplayedRows +'" id="SectionValues' + uiCurrSection + '">' + fieldValuesToNewlineDelimitedString(fields) + '</textarea></div></div>' +
+        '    <div class="col nopadding"><div class="form-group d-inline-flex flex-column"><div class="text-center p-1">Position/Column</div><textarea class="form-control desc-updater" rows="'+ numDisplayedRows +'" id="SectionColumnNumber' + uiCurrSection + '">' + fieldColumnNumbersToNewlineDelimitedString(fields) + '</textarea></div></div>' +
+        '    <div class="col nopadding"><div class="form-group d-inline-flex flex-column"><div class="text-center p-1">Is Priority?</div><textarea class="form-control desc-updater" rows="'+ numDisplayedRows +'" id="SectionIsPriority' + uiCurrSection + '">' + fieldPrioritiesToNewlineDelimitedString(fields) + '</textarea></div></div>' +
         '  </div>' +
         '</div>';
     objTo.appendChild(sectionDiv);
@@ -156,7 +164,12 @@ function initUnhandled() {
         new Field("|-> TOP", "Fluorescent yellow \"Hyperderp\" band tee.", -1, false),
         new Field("|-> BOTTOM", "Cyan bondage pants with caution orange straps.", -1, false)
     ]);
-    init_handlers();
+
+    // Perform initial population of output fields.
+    updateOutputDescField();
+    updateMorph();
+
+    init_handlers(); // Do this last so other instantiations don't repeatedly call the handlers.
 }
 
 // Define fields:
@@ -682,4 +695,53 @@ function generateDesc() {
     outDesc.replace("\n\n", "\n \n");
 
     return outDesc;
+}
+
+class MorphContext {
+    constructor() {
+        this.command = getValueOrEmptyString("MorphCommand");
+        this.name = getValueOrEmptyString("MorphName");
+        this.message = getValueOrEmptyString("MorphMessage");
+        this.scent = getValueOrEmptyString("ScentMessage");
+        this.sex = getValueOrEmptyString("SexProperty");
+        this.species = getValueOrEmptyString("SpeciesProperty");
+        this.notify = document.getElementById("DoNotify").checked;
+        this.desc = getValueOrEmptyString("OutputDesc");
+        this.isUpdate = document.getElementById("IsMorphUpdate").checked;
+    }
+}
+
+function generateCommand(command, object, value) {
+    return command + " " + object + "=" + value + "\n";
+}
+
+let lookNotifyMpi = "{null:{tell:***{toupper:{&cmd} {&arg}}->[{name:me}],this}}";
+function generateMorph() {
+    let context = new MorphContext();
+
+    let outString = "";
+    outString += generateCommand("@set", "me", "_scent:" + context.scent);
+    outString += generateCommand("@set", "me", "sex:" + context.sex);
+    outString += generateCommand("@set", "me", "species:" + context.species);
+    outString += generateCommand("lsedit", "me", "/tooldescs/" + context.command);
+    outString += ".del 1 999\n";
+    outString += context.desc + "\n";
+    outString += ".end\n";
+
+    let listDisplayMpi = "{list:/tooldescs/" + context.command + "}";
+    if(context.notify) {
+        outString += generateCommand("@desc", "me", lookNotifyMpi + listDisplayMpi);
+    } else {
+        outString += generateCommand("@desc", "me", listDisplayMpi);
+    }
+
+    outString += "morph #add\n";
+    outString += context.command + "\n";
+    if(context.isUpdate) {
+        outString += "yes\n";
+    }
+    outString += context.name + "\n";
+    outString += context.message + "\n";
+
+    return outString
 }
