@@ -692,8 +692,8 @@ function generateDesc() {
     }
 
     // add a space to all newlines for lsedit compatibility
-    outDesc.replace("\n\n", "\n \n");
-
+    outDesc = outDesc.replace(/\n\n/g,"\n \n");
+    console.log(outDesc);
     return outDesc;
 }
 
