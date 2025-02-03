@@ -693,7 +693,6 @@ function generateDesc() {
 
     // add a space to all newlines for lsedit compatibility
     outDesc = outDesc.replace(/\n\n/g,"\n \n");
-    console.log(outDesc);
     return outDesc;
 }
 
