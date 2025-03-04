@@ -11,7 +11,7 @@ function init_handlers() {
 
     $("body").on("change input", ".desc-updater", updateOutputDescField);
 
-    $("body").on("change input", ".morph-updater", updateMorph);
+    $("body").on("change input", ".morph-updater, .desc-updater", updateMorph);
 }
 
 function updateMorph() {
