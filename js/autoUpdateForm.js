@@ -11,7 +11,7 @@ function init_handlers() {
 
     $("body").on("change input", ".desc-updater", updateOutputDescField);
 
-    $("body").on("change input", ".morph-updater", updateMorph);
+    $("body").on("change input", ".morph-updater, .desc-updater", updateMorph);
 }
 
 function updateMorph() {
@@ -692,8 +692,7 @@ function generateDesc() {
     }
 
     // add a space to all newlines for lsedit compatibility
-    outDesc.replace("\n\n", "\n \n");
-
+    outDesc = outDesc.replace(/\n\n/g,"\n \n");
     return outDesc;
 }
 
